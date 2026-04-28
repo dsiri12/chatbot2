@@ -1,13 +1,11 @@
 import { useState, type ChangeEvent } from "react";
 import { Chatbot } from "supersimpledev";
-import type { ChatMessageType } from "../types/ChatMessageType";
 
 type Props = {
-  chatMessages: ChatMessageType[];
-  setChatMessages: React.Dispatch<React.SetStateAction<ChatMessageType[]>>;
-}
+  addMessages: (userQuestion: string, robotAnswer: string) => void;
+};
 
-export const ChatInput = ({ chatMessages, setChatMessages }: Props) => {
+export const ChatInput = ({ addMessages }: Props) => {
   const [inputText, setInputText] = useState("");
 
   function saveInputText(
@@ -17,29 +15,15 @@ export const ChatInput = ({ chatMessages, setChatMessages }: Props) => {
   }
 
   function sendMessage() {
-    const useMessage = inputText.trim();
-    if (useMessage.length === 0) {
+    const userQuestion = inputText.trim();
+    if (userQuestion.length === 0) {
       alert("Please input a message.");
       return;
     }
 
-    const response = Chatbot.getResponse(useMessage);
+    const response = Chatbot.getResponse(userQuestion);
 
-    const newChatMessages = [
-      ...chatMessages,
-      {
-        message: useMessage,
-        sender: "user",
-        id: new Date().getTime(),
-      },
-      {
-        message: response,
-        sender: "robot",
-        id: new Date().getTime() + 1,
-      },
-    ];
-
-    setChatMessages(newChatMessages);
+    addMessages(userQuestion, response);
 
     setInputText("");
   }
