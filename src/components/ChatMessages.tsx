@@ -8,12 +8,12 @@ type Props = {
 export const ChatMessages = ({ chatMessages }: Props) => {
   const chatMessagesRef = React.useRef(null);
 
-  React.useEffect(() => {
-    const messageContainerElem = chatMessagesRef.current;
-    if (messageContainerElem) {
-      messageContainerElem.scrollTop = messageContainerElem.scrollHeight;
-    }
-  }, [chatMessages]);
+  // React.useEffect(() => {
+  //   const messageContainerElem = chatMessagesRef.current;
+  //   if (messageContainerElem) {
+  //     messageContainerElem.scrollTop = messageContainerElem.scrollHeight;
+  //   }
+  // }, [chatMessages]);
 
   return (
     <div className="chat-messages-container" ref={chatMessagesRef}>
