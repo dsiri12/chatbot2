@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from "react";
-import { Chatbot } from "supersimpledev";
+// import { Chatbot } from "supersimpledev";
 
 type Props = {
   addMessages: (userQuestion: string, robotAnswer: string) => void;
@@ -14,16 +14,27 @@ export const ChatInput = ({ addMessages }: Props) => {
     setInputText(event.target.value);
   }
 
-  function sendMessage() {
+  const sendMessage = async () => {
     const userQuestion = inputText.trim();
     if (userQuestion.length === 0) {
       alert("Please input a message.");
       return;
     }
 
-    const response = Chatbot.getResponse(userQuestion);
+    // const response = Chatbot.getResponse(userQuestion);
+    // addMessages(userQuestion, response);
 
-    addMessages(userQuestion, response);
+    const res = await fetch("/api/aks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify({question: userQuestion})
+    })
+
+    const text = await res.text();
+
+    console.log(text)
+
+    addMessages(userQuestion, text);
 
     setInputText("");
   }
