@@ -1,8 +1,22 @@
+import React from "react";
 import { ChatMessage } from "./ChatMessage";
+import type { ChatMessageType } from "../types/ChatMessageType";
 
-export const ChatMessages = ({ chatMessages }) => {
+type Props = {
+  chatMessages: ChatMessageType[]
+}
+export const ChatMessages = ({ chatMessages }: Props) => {
+  const chatMessagesRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const messageContainerElem = chatMessagesRef.current;
+    if (messageContainerElem) {
+      messageContainerElem.scrollTop = messageContainerElem.scrollHeight;
+    }
+  }, [chatMessages]);
+
   return (
-    <div className="chat-messages-container">
+    <div className="chat-messages-container" ref={chatMessagesRef}>
       {chatMessages.map((chatMessage) => {
         return (
           <ChatMessage
